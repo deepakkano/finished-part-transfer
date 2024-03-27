@@ -63,25 +63,23 @@ CREATE TABLE IF NOT EXISTS ProductInformation (id INTEGER PRIMARY KEY ,barCodeNo
     return await database!.query('usertable');
   }
 
-
-Future<Map<String, String?>> fetchData(String barCodeNo) async {
-  Database? database = await db;
-   var result = await database!.rawQuery('SELECT *FROM ProductInformation WHERE barCodeNo = ?', [barCodeNo]);
-  if (result.isNotEmpty) {
-    return {
-      'barCodeNoValue': result.first['barCodeNo'] as String?,
-      'productNameValue': result.first['productName'] as String?,
-      'manufacturingPlantValue': result.first['manufacturingPlant'] as String?,
-      'productDiminsionValue': result.first['productDiminsion'] as String?,
-            'Description': result.first['Description'] as String?,
-      'Review': result.first['Review'] as String?,
-
-
-    };
+ Future fetchdataProduct( barcode) async {
+    Database? database = await db;
+    return await database!.query('ProductInformation'   ,   where: 'barCodeNo = ?',
+      whereArgs: [barcode],
+);
   }
-  return {
-    'value1': null,
-    'value2': null,
-  };
+
+Future<void>updataproduct(int id,String Description,String Review)async{
+    Database? database = await db;
+  await database!.update('ProductInformation', {
+    'Description':Description,
+    'Review':Review
+
+},where: 'id=?',
+whereArgs: [id]
+
+);
 }
 }
+

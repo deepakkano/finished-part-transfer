@@ -16,28 +16,48 @@ class EditPageUser extends StatefulWidget {
 }
 
 class _EditPageUserState extends State<EditPageUser> {
+   var ScanValue;
+  var barCodeValue;
+  TextEditingController? productNameController;
+    TextEditingController? manufacturingController;
+  TextEditingController? productDimensionController;
+  TextEditingController? descriptionController;
+  TextEditingController? remarkController;
+  var updateId;
 
-@override
- 
- 
-  void getvalue ()async{
-final data = await dbHandler().fetchData('$barCodeValue');
 
-// print("kajfkahfakndandknsakjflsafjbsaklfbhjlfbaslfsadlfslfjsf,n");
-   var   productNameValue = data['productNameValue'];
-   var  manufacturingPlant=data['manufacturingPlantValue'];
-      var productDiminsionValue = data['productDiminsionValue'];
-   var  Description=data['Description'];
-      var Review = data['Review'];
+  @override
+  void initState() {
+    barCodeValue = Get.arguments['barcode'];
+    getvalue();
+    super.initState();
+  }
+ void getvalue() async {
+    await dbHandler().fetchdataProduct(barCodeValue).then(
+      (value) {
+        setState(() {
+          ScanValue = value;
+          updateId=ScanValue != null ? ScanValue[0]['id'] ?? '' : '';
+              productNameController = TextEditingController(
+              text: ScanValue != null ? ScanValue[0]['productName'] ?? '' : ''); 
+              manufacturingController = TextEditingController(
+              text: ScanValue != null ? ScanValue[0]['manufacturingPlant'] ?? '' : '');
+              productDimensionController = TextEditingController(
+              text: ScanValue != null ? ScanValue[0]['productDiminsion'] ?? '' : '');
+              descriptionController = TextEditingController(
+              text: ScanValue != null ? ScanValue[0]['Description'] ?? '' : ' ');
+              remarkController = TextEditingController(
+              text: ScanValue != null ? ScanValue[0]['Review'] ?? '' : ' ');
+        });
+      },
+    ).onError((error, stackTrace) {
+      print(error);
+    });
   }
 
-  TextEditingController productName = TextEditingController();
-  TextEditingController manufacturingPlant = TextEditingController();
-  TextEditingController productDiminsion = TextEditingController();
-    TextEditingController Description = TextEditingController();
-  TextEditingController Review = TextEditingController();
 
-  var barCodeValue = Get.arguments[0]['barcodeno'];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +77,6 @@ final data = await dbHandler().fetchData('$barCodeValue');
         padding: const EdgeInsets.all(25),
         child: SingleChildScrollView(
           child: Column(
-            
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -74,7 +93,6 @@ final data = await dbHandler().fetchData('$barCodeValue');
                 child: TextField(
                   readOnly: true,
                   controller: TextEditingController(text: barCodeValue),
-                  // obscureText: true,s
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -94,9 +112,7 @@ final data = await dbHandler().fetchData('$barCodeValue');
                 height: 50,
                 child: TextField(
                   readOnly: true,
-                                    controller: productName,
-
-                  // obscureText: true,s
+                  controller: productNameController,
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -116,7 +132,7 @@ final data = await dbHandler().fetchData('$barCodeValue');
                 height: 50,
                 child: TextField(
                   readOnly: true,
-                  // controller: TextEditingController(text: barCodeValue),
+                  controller: manufacturingController,
                   // obscureText: true,s
                   decoration: InputDecoration(
                     isDense: true,
@@ -137,8 +153,7 @@ final data = await dbHandler().fetchData('$barCodeValue');
                 height: 50,
                 child: TextField(
                   readOnly: true,
-                  // controller: TextEditingController(text: barCodeValue),
-                  // obscureText: true,s
+                  controller: productDimensionController,
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -151,12 +166,14 @@ final data = await dbHandler().fetchData('$barCodeValue');
               Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Diminsion",
+                    "Description",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
                   )),
               SizedBox(
                 child: TextField(
                   maxLines: 5,
+                  controller: descriptionController,
+                      
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -179,8 +196,8 @@ final data = await dbHandler().fetchData('$barCodeValue');
                 height: 50,
                 child: TextField(
                   // readOnly: true,
-                  // controller: TextEditingController(text: barCodeValue),
-                  // obscureText: true,s
+                  controller: remarkController,
+
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -192,7 +209,18 @@ final data = await dbHandler().fetchData('$barCodeValue');
               ),
               SizedBox(
                 width: 200,
-                child: ElevatedButton(onPressed: () {}, child: Text("Save")),
+                child: ElevatedButton(onPressed: () async{
+
+                  if (descriptionController != null && remarkController != null) {
+    await dbHandler().updataproduct(
+      updateId,
+      descriptionController!.text,
+      remarkController!.text,
+    ).then((value) {
+      // Handle the result if needed
+    });
+  }
+                }, child: Text("Save")),
               )
             ],
           ),

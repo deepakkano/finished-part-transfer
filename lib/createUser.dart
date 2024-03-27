@@ -59,7 +59,6 @@ class createUser extends StatefulWidget {
                   onPressed: () async {
                     await dbHandler()
                         .insertUserInfomation(dbModel(
-// id: ,
                           companyId:companyIdController.text.trim(),
                           username:userIdController.text.trim(),
                           password:passwordController.text.trim(),
@@ -73,20 +72,9 @@ class createUser extends StatefulWidget {
                 onPressed: () async {
                   await dbHandler().fetchUserData().then(
                     (value) {
-                      
-
-                      // print(valu1);
-                      // Text('this is a  value :-$valu1' + "");
 for (var candidate in value) {
-                        print(candidate);
-
-  // candidate.interview();
-}
-
-
-
-
-                    },
+print(candidate);}
+},
                   );
                 },
                 child: Text("REad")),

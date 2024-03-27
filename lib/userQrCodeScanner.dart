@@ -6,6 +6,7 @@ import 'package:ftp/editPageUser.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
+  const bg_color = Color(0xfffafafa);
 
 class UserQrCodeScanner extends StatefulWidget {
   const UserQrCodeScanner({super.key});
@@ -16,13 +17,13 @@ class UserQrCodeScanner extends StatefulWidget {
 
 class _UserQrCodeScannerState extends State<UserQrCodeScanner> {
   @override
-  var bg_color = Color(0xfffafafa);
   MobileScannerController cameraController = MobileScannerController();
   bool _screenOpened = false;
   String? productNameValue;
   String? code;
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bg_color,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
@@ -44,32 +45,32 @@ class _UserQrCodeScannerState extends State<UserQrCodeScanner> {
                 children: [
                   Text(
                     "Place the Qr code in the Area",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,letterSpacing: 1),
                   ),
                   Text(
                     "Scanning will be Started Automatically",
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ],
               )),
               Expanded(
-                  // flex: 3,
-                  child: SizedBox(
-                    // width:200,
-                    // height: 200,
-                    child: Stack(
-                      children: [
-                        MobileScanner(
-                          allowDuplicates: false,
-                          controller: cameraController,
-                          onDetect: _foundBarcode,
-                        ),
-                        QRScannerOverlay(
-                          overlayColor: bg_color,
-                        )
-                      ],
+                  flex: 4,
+                  // child: SizedBox(
+                // width:200,
+                // height: 200,
+                child: Stack(
+                  children: [
+                    MobileScanner(
+                      allowDuplicates: false,
+                      controller: cameraController,
+                      onDetect: _foundBarcode,
                     ),
-                  )),
+                 QRScannerOverlay(
+                    overlayColor: bg_color
+                    )
+                  ],
+                ),
+              ),
               Expanded(
                   child: Container(
                 width: double.infinity,
@@ -93,14 +94,12 @@ class _UserQrCodeScannerState extends State<UserQrCodeScanner> {
                                       fontWeight: FontWeight.bold)),
                               Text('$productNameValue'),
                               ElevatedButton(
-                                  onPressed: () {
-
-
-Get.to(EditPageUser(),arguments: [{
-"barcodeno":code
-}]);
-
-                                  }, child: Text("Edit"))
+                                  onPressed: () async {
+                  Get.to(EditPageUser(),arguments: {
+                    'barcode':code
+                  });
+                },
+                                  child: Text("Edit"))
                             ],
                           ),
                   ],
@@ -120,10 +119,8 @@ Get.to(EditPageUser(),arguments: [{
         _screenOpened = false;
       });
     }
-    final data = await dbHandler().fetchData('$code');
-    setState(() {
-      productNameValue = data['productNameValue'];
-    });
+    
+   
   }
 
   void _screenWasClosed() {
