@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ftp/dbHandler.dart';
+import 'package:ftp/displayProductDetails.dart';
 import 'package:ftp/modelClass/db_model.dart';
 import 'package:ftp/userQrCodeScanner.dart';
 import 'package:get/get.dart';
@@ -220,6 +221,13 @@ class _EditPageUserState extends State<EditPageUser> {
       // Handle the result if needed
     });
   }
+
+Get.to(DisplayProductDetails(),arguments: {
+'barocodevalue':barCodeValue
+});
+
+
+
                 }, child: Text("Save")),
               )
             ],

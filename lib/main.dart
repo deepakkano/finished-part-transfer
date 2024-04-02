@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ftp/LoginPage.dart';
 import 'package:ftp/addDataAdmin.dart';
 import 'package:ftp/adminScanner.dart';
+import 'package:ftp/displayProductDetails.dart';
 import 'package:ftp/editPageUser.dart';
 import 'package:ftp/userQrCodeScanner.dart';
 import 'package:get/get.dart';
