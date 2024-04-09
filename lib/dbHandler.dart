@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:ftp/modelClass/dbModelAddInformation.dart';
 import 'package:ftp/modelClass/db_model.dart';
 import 'package:path/path.dart';
@@ -24,13 +25,18 @@ class dbHandler {
   Future _onCreate(Database db, int version) async {
     print("table created 1");
     await db.execute('''
-CREATE TABLE  IF NOT EXISTS usertable (id INTEGER PRIMARY KEY ,companyid TEXT,username TEXT,password TEXT)
+CREATE TABLE  IF NOT EXISTS usertable (id INTEGER PRIMARY KEY ,name Text ,companyid TEXT,username TEXT,password TEXT,email Text, role Text)
 ''');
     print("table created 2");
     await db.execute('''
-CREATE TABLE IF NOT EXISTS ProductInformation (id INTEGER PRIMARY KEY ,barCodeNo TEXT,productName TEXT, manufacturingPlant TEXT,productDiminsion TEXT,Description TEXT,Review TEXT)
+CREATE TABLE IF NOT EXISTS ProductInformation (id INTEGER PRIMARY KEY ,barCodeNo TEXT,productId Text,productName TEXT, manufacturingPlant TEXT,productDiminsion TEXT,productionDescription TEXT,productionReview TEXT,productionCheckUSerId Text,qualityCheckRemark Text,qualityCheckStatus Text,qualityCheckUserID Text,storeRemark Text,StoreStatus Text,storeUserID Text)
 ''');
   }
+
+
+
+
+
 
   Future insertUserInfomation(dbModel model) async {
     Database? databaseinsert = await db;
@@ -41,11 +47,32 @@ CREATE TABLE IF NOT EXISTS ProductInformation (id INTEGER PRIMARY KEY ,barCodeNo
     Database? database = await db;
     return await database!.query('usertable');
   }
+    Future<List<Map<String, dynamic>>> fetchUserSingleData(companyId) async {
+    Database? database = await db;
+    return await database!.query('usertable',   where: 'companyid = ?',
+      whereArgs: [companyId],
+);
+  }
+     fetchUseremailData(productionId,CheckByUser_QA,CheckByUser_production) async {
+    Database? database = await db;
+     var result = await database!.rawQuery(
+        "select email from usertable where companyId IN('${productionId}','${CheckByUser_QA}','${CheckByUser_production}')");
+    if (result.isNotEmpty) {
+      // print(result);
+      return result;
+    } else {
+      return false;
+    }
+
+  }
+
+
+
 
   getUserAuth(dbModel model) async {
     Database? database = await db;
     var result = await database!.rawQuery(
-        "select * from usertable where companyId = '${model.companyId}' AND username = '${model.username}'AND password = '${model.password}'");
+        "select * from usertable where companyId = '${model.companyId}' AND username = '${model.username}'AND password = '${model.password}'AND role = '${model.role}'");
     if (result.isNotEmpty) {
       return true;
     } else {
@@ -70,16 +97,38 @@ CREATE TABLE IF NOT EXISTS ProductInformation (id INTEGER PRIMARY KEY ,barCodeNo
 );
   }
 
-Future<void>updataproduct(int id,String Description,String Review)async{
+Future<void>updataproduct(int id,String Description,String Review,String checkuserid)async{
     Database? database = await db;
   await database!.update('ProductInformation', {
-    'Description':Description,
-    'Review':Review
+    'productionDescription':Description,
+    'productionReview':Review,
+    'productionCheckUSerId':checkuserid,
+
 
 },where: 'id=?',
 whereArgs: [id]
 
 );
 }
+
+
+
+Future<List<dbModelAddInformation>>getlistitem(barcode) async{
+      Database? database = await db;
+      final List<Map<String,dynamic>> queryResult  =await database!.query('ProductInformation' , where: 'barCodeNo = ?',
+      whereArgs: [barcode]);
+return queryResult.map((e) => dbModelAddInformation.formMap(e)).toList();
+
+
+
+}
+ Future<List<Map<String, dynamic>>> fetchDataForCompany(companyId) async {
+      Database? database = await db;
+    return await database!.query(
+      'ProductInformation',
+      where: 'companyId = ?',
+      whereArgs: [companyId],
+    );
+  }
 }
 

@@ -48,7 +48,7 @@ class _AdminScannerState extends State<AdminScanner> {
         _screenOpened = false;
       });
       Get.to(AddDataAdmin(), arguments: [
-        {'codevalue': 'pq654789'}
+        {'codevalue': code}
       ]);
     }
   }

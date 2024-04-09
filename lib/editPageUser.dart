@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ftp/LoginPage.dart';
 import 'package:ftp/dbHandler.dart';
 import 'package:ftp/displayProductDetails.dart';
 import 'package:ftp/modelClass/db_model.dart';
 import 'package:ftp/userQrCodeScanner.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditPageUser extends StatefulWidget {
   const EditPageUser({super.key});
@@ -25,18 +28,26 @@ class _EditPageUserState extends State<EditPageUser> {
   TextEditingController? descriptionController;
   TextEditingController? remarkController;
   var updateId;
-
+var userCompanyID;
 
   @override
   void initState() {
     barCodeValue = Get.arguments['barcode'];
+    // barCodeValue='';
     getvalue();
     super.initState();
   }
+  checkuserid()async{
+     SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    userCompanyID = sharedPref.getString('companyid');
+  }
  void getvalue() async {
+  
     await dbHandler().fetchdataProduct(barCodeValue).then(
       (value) {
-        setState(() {
+        
+        setState((){
+          checkuserid();
           ScanValue = value;
           updateId=ScanValue != null ? ScanValue[0]['id'] ?? '' : '';
               productNameController = TextEditingController(
@@ -46,9 +57,9 @@ class _EditPageUserState extends State<EditPageUser> {
               productDimensionController = TextEditingController(
               text: ScanValue != null ? ScanValue[0]['productDiminsion'] ?? '' : '');
               descriptionController = TextEditingController(
-              text: ScanValue != null ? ScanValue[0]['Description'] ?? '' : ' ');
+              text: ScanValue != null ? ScanValue[0]['productionDescription'] ?? '' : ' ');
               remarkController = TextEditingController(
-              text: ScanValue != null ? ScanValue[0]['Review'] ?? '' : ' ');
+              text: ScanValue != null ? ScanValue[0]['productionReview'] ?? '' : ' ');
         });
       },
     ).onError((error, stackTrace) {
@@ -64,23 +75,48 @@ class _EditPageUserState extends State<EditPageUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+                  automaticallyImplyLeading: false,
+
         backgroundColor: Colors.blue,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(UserQrCodeScanner());
-              },
-              icon: Icon(Icons.qr_code_scanner_outlined)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.logout)),
-        ],
+       
+                 actions: [
+            IconButton(
+                onPressed: () async {},
+                icon: Icon(
+                  Icons.remove_red_eye,
+                  color: Colors.white,
+                )),
+            IconButton(
+                onPressed: () async {
+                  late SharedPreferences spget;
+                  spget = await SharedPreferences.getInstance();
+                  spget.setBool('login_flag', true);
+
+                  Get.offAll(LoginPage());
+                },
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ))
+          ], title: Text(
+            "Chirag",
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(25),
         child: SingleChildScrollView(
           child: Column(
             children: [
+               Align(
+          alignment: Alignment.center,
+            child: Text(
+                  "Product ",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.black),
+                ),
+          ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 20),
                 child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -103,12 +139,15 @@ class _EditPageUserState extends State<EditPageUser> {
                   ),
                 ),
               ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Product Name",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
-                  )),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Product Name",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+                    )),
+              ),
               SizedBox(
                 height: 50,
                 child: TextField(
@@ -123,12 +162,15 @@ class _EditPageUserState extends State<EditPageUser> {
                   ),
                 ),
               ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Manufacturing Plant",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
-                  )),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Manufacturing Plant",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+                    )),
+              ),
               SizedBox(
                 height: 50,
                 child: TextField(
@@ -144,12 +186,15 @@ class _EditPageUserState extends State<EditPageUser> {
                   ),
                 ),
               ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Product Dimension",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
-                  )),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Product Dimension",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+                    )),
+              ),
               SizedBox(
                 height: 50,
                 child: TextField(
@@ -164,12 +209,15 @@ class _EditPageUserState extends State<EditPageUser> {
                   ),
                 ),
               ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Description",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
-                  )),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Description",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+                    )),
+              ),
               SizedBox(
                 child: TextField(
                   maxLines: 5,
@@ -184,15 +232,18 @@ class _EditPageUserState extends State<EditPageUser> {
                   ),
                 ),
               ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Remark *",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w100,
-                        color: Colors.red),
-                  )),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Remark *",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w100,
+                          color: Colors.red),
+                    )),
+              ),
               SizedBox(
                 height: 50,
                 child: TextField(
@@ -208,27 +259,41 @@ class _EditPageUserState extends State<EditPageUser> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 200,
-                child: ElevatedButton(onPressed: () async{
+              Padding(
+                padding: const EdgeInsets.only(top: 80),
+                child: SizedBox(
+                  width: 250,
+                                                    height: 50,
+                
+                  child: ElevatedButton(onPressed: () async{
+                
+                    if (descriptionController != null && remarkController != null) {
+                    await dbHandler().updataproduct(
+                      updateId,
+                      descriptionController!.text,
+                      remarkController!.text,
+                      userCompanyID,
 
-                  if (descriptionController != null && remarkController != null) {
-    await dbHandler().updataproduct(
-      updateId,
-      descriptionController!.text,
-      remarkController!.text,
-    ).then((value) {
-      // Handle the result if needed
-    });
-  }
-
-Get.to(DisplayProductDetails(),arguments: {
-'barocodevalue':barCodeValue
-});
-
-
-
-                }, child: Text("Save")),
+                      
+                    ).then((value) {
+                      // Handle the result if needed
+                    }
+                    
+                    
+                    );
+                  }
+                
+                Get.to(DisplayProductDetails(),arguments: {
+                'barcode':barCodeValue
+                });
+                
+                
+                
+                  },style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Colors.indigo[900], // Background color
+                                    ), child: Text("Save",style: TextStyle(color: Colors.white))),
+                ),
               )
             ],
           ),

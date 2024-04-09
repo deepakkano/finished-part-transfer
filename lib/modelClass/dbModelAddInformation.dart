@@ -1,30 +1,58 @@
 class dbModelAddInformation {
   int? id;
   String? barCodeNo;
+  String? productId;
   String? productName;
   String? manufacturingPlant;
   String? productDiminsion;
-  String? Description;
-  String? Review;
+  String? productionDescription;
+  String? productionReview;
+  String? productionCheckUSerId;
+  String? qualityCheckRemark;
+String? qualityCheckStatus;
+String? qualityCheckUserID;
+  String? storeRemark;
+  String? storeStatus;
+  String? storeUserID;
+
 
   dbModelAddInformation(
       {this.id,
       this.barCodeNo,
+      this.productId,
       this.productName,
       this.manufacturingPlant,
       this.productDiminsion,
-      this.Description,
-      this.Review});
+      this.productionDescription,
+      this.productionReview,
+      this.productionCheckUSerId,
+            this.qualityCheckRemark,
+      this.qualityCheckStatus,
+      this.qualityCheckUserID,
+      this.storeRemark,
+      this.storeStatus,
+      this.storeUserID,
+
+});
 
   factory dbModelAddInformation.formMap(Map<String, dynamic> map) {
     return dbModelAddInformation(
       id: map['id'],
       barCodeNo: map['barCodeNo'],
-      productName: map['productName'],
+            productId: map['productId'],
+        productName: map['productName'],
       manufacturingPlant: map['manufacturingPlant'],
       productDiminsion: map['productDiminsion'],
-      Description: map['Description'],
-      Review: map['Review'],
+      productionDescription: map['productionDescription'],
+      productionReview: map['productionReview'],
+            productionCheckUSerId: map['productionCheckUSerId'],
+
+         qualityCheckRemark: map['qualityCheckRemark'],
+            qualityCheckStatus: map['qualityCheckStatus'],
+               qualityCheckUserID: map['qualityCheckUserID'],
+                  storeRemark: map['storeRemark'],
+                     storeStatus: map['storeStatus'],
+                        storeUserID: map['storeUserID'],
     );
   }
 
@@ -32,11 +60,21 @@ class dbModelAddInformation {
     return {
       'id': id,
       'barCodeNo': barCodeNo,
+      'productId':productId,
       'productName': productName,
       'manufacturingPlant': manufacturingPlant,
       'productDiminsion': productDiminsion,
-      'Description': Description,
-      'Review': Review
+      'productionDescription': productionDescription,
+      'productionReview': productionReview,
+      'productionCheckUSerId':productionCheckUSerId,
+            'qualityCheckRemark': qualityCheckRemark,
+      'qualityCheckStatus': qualityCheckStatus,
+      'qualityCheckUserID': qualityCheckUserID,
+      'storeRemark': storeRemark,
+      'storeStatus': storeStatus,
+      'storeUserID': storeUserID,
+      
+
     };
   }
 }
