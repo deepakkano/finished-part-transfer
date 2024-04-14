@@ -66,7 +66,7 @@ class _AddDataAdminState extends State<AddDataAdmin> {
                   // obscureText: true,s
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'BarCode no',
+                    labelText: 'Productid',
                   ),
                 ),
               ),
@@ -112,6 +112,7 @@ class _AddDataAdminState extends State<AddDataAdmin> {
                       await dbHandler()
                           .insertData(dbModelAddInformation(
                               barCodeNo: barCodeValue.trim(),
+                              productId:productId.text.trim() ,
                               productName: productName.text.trim(),
                               manufacturingPlant:
                                   manufacturingPlant.text.trim(),

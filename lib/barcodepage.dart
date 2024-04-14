@@ -7,6 +7,7 @@ import 'package:ftp/userQrCodeScanner.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BarcodePage extends StatefulWidget {
@@ -15,7 +16,6 @@ class BarcodePage extends StatefulWidget {
   @override
   State<BarcodePage> createState() => _BarcodePageState();
 }
-
 class _BarcodePageState extends State<BarcodePage> {
   var username;
   var userCompanyID;
@@ -30,10 +30,10 @@ class _BarcodePageState extends State<BarcodePage> {
 
     await dbHandler().fetchUserSingleData(userCompanyID).then((value) {
       setState(() {
-        username = value != null ? value[0]['name'] ?? '' : '';
+       username = value != null ? value[0]['name'] ?? '' : '';
         sharedPref.setString("userprofilename", username);
       });
-    });
+    }); 
   }
 
   @override
@@ -88,11 +88,14 @@ class _BarcodePageState extends State<BarcodePage> {
                     ],
                   ),
                 ),
-                Image.asset(
-                  "assets/images/qr.png",
-                  width: 200,
-                  height: 200,
-                ),
+              Padding(
+                padding: const EdgeInsets.only(left: 70),
+                child: Container(
+                  height: 250,
+                  width: 250,
+                  // color: Colors.amber,
+                  child: Lottie.asset("assets/images/Animation_scanner.json",width: 400,height: 400)),
+              ),
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Container(
@@ -126,6 +129,7 @@ class _BarcodePageState extends State<BarcodePage> {
                             },
                           );
                           Future.delayed(Duration(seconds: 3), () {
+                            Get.back();
                             Get.to(UserQrCodeScanner());
                           });
                         },

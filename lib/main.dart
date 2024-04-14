@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ftp/LoginPage.dart';
 import 'package:ftp/addDataAdmin.dart';
 import 'package:ftp/adminScanner.dart';
+import 'package:ftp/dependencyInjection.dart';
 import 'package:ftp/displayProductDetails.dart';
 import 'package:ftp/editPageUser.dart';
 // import 'package:ftp/navigationControler.dart';
@@ -11,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
+    DependencyInjection.init();
+
 }
 
 class MyApp extends StatelessWidget {

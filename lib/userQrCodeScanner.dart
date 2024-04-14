@@ -181,22 +181,25 @@ class _UserQrCodeScannerState extends State<UserQrCodeScanner> {
                                         );
                                         Future.delayed(Duration(seconds: 5),
                                             () {
+                                              Get.back();
                                           role == 'Production'
                                               ? Get.to(EditPageUser(),
                                                   arguments: {'barcode': code})
                                               : Get.to(DisplayProductDetails(),
                                                   arguments: {'barcode': code});
+                                                
                                         });
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors
                                             .indigo[900], // Background color
                                       ),
-                                      child: Text("Edit",
-                                          style:
-                                              TextStyle(color: Colors.white))),
+                                      child:role=='Production'?Text("Edit", style:
+                                              TextStyle(color: Colors.white)):Text("Verify", style:
+                                              TextStyle(color: Colors.white))
+                                         )),
                                 ),
-                              )
+                              
                             ],
                           ),
                   ],
@@ -326,7 +329,7 @@ class _UserQrCodeScannerState extends State<UserQrCodeScanner> {
           title: Padding(
             padding: const EdgeInsets.all(5),
             child: Container(
-              width: 350,
+              width: 200,
               height: 80,
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
@@ -334,7 +337,6 @@ class _UserQrCodeScannerState extends State<UserQrCodeScanner> {
               ),
               child: Column(
                 children: [
-                 
                   Icon(Icons.info, size: 40, color: Colors.red),
                   Text(
                     'Alert',

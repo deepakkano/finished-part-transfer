@@ -10,7 +10,9 @@ import 'package:ftp/adminScanner.dart';
 import 'package:ftp/barcodepage.dart';
 import 'package:ftp/createUser.dart';
 import 'package:ftp/dbHandler.dart';
+import 'package:ftp/dependencyInjection.dart';
 import 'package:ftp/editPageUser.dart';
+import 'package:ftp/main.dart';
 import 'package:ftp/modelClass/db_model.dart';
 import 'package:ftp/userQrCodeScanner.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,11 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List<String> valueitem = ["Production", "QA/QC", "Store","Admin"];
+void main() {
+  runApp(const MyApp());
+    DependencyInjection.init();
+
+}
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -51,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          // backgroundColor: Colors.transparent,
+          // backgroundColor: Colors.white
           ),
       body: Container(
         child: Form(
@@ -81,32 +88,22 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           "Please Enter Your Details.",
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 10,
                           ),
                         ),
                       )),
 
                   Image.asset(
                     "assets/images/loginimage.png",
-                    width: 200,
-                    height: 200,
+                    width: 150,
+                    height: 150,
                   ),
-                  // Align(
-                  //   alignment: Alignment.center,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: Text("Login",
-                  //         style: TextStyle(
-                  //           fontSize: 35,
-                  //           fontWeight: FontWeight.bold,
-                  //         )),
-                  //   ),
-                  // ),
+               
 
                   Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 35, bottom: 5),
+                        padding: const EdgeInsets.only(left: 35, bottom: 0),
                         child: Text(
                           "Role",
                           style: TextStyle(
@@ -152,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 35, bottom: 5),
+                        padding: const EdgeInsets.only(left: 35, top: 5),
                         child: Text(
                           "Company ID",
                           style: TextStyle(
@@ -205,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 35, bottom: 5),
+                        padding: const EdgeInsets.only(left: 35, top: 10),
                         child: Text(
                           "Username",
                           style: TextStyle(
@@ -261,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 35, bottom: 5),
+                        padding: const EdgeInsets.only(left: 35, top: 10),
                         child: Text(
                           "Password",
                           style: TextStyle(

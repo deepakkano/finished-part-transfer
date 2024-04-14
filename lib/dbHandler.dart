@@ -110,6 +110,34 @@ whereArgs: [id]
 
 );
 }
+Future<void>updataQA(int id,String Qaremark,String QaStatus,String Qacheckuserid)async{
+    Database? database = await db;
+  await database!.update('ProductInformation', {
+    'qualityCheckRemark':Qaremark,
+    'qualityCheckStatus':QaStatus,
+    'qualityCheckUserID':Qacheckuserid,
+
+
+},where: 'id=?',
+whereArgs: [id]
+
+);
+}
+Future<void>updataStore(int id,String StoreCheckRemark,String StoreStatus,String Storecheckuserid)async{
+    Database? database = await db;
+  await database!.update('ProductInformation', {
+    'storeRemark':StoreCheckRemark,
+    'StoreStatus':StoreStatus,
+    'storeUserID':Storecheckuserid,
+
+
+},where: 'id=?',
+whereArgs: [id]
+
+);
+}
+
+
 
 
 
