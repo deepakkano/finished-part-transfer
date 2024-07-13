@@ -37,6 +37,4 @@ The main goal of the FPT mobile application is to optimize the workflow for tran
 
 The FPT Project is set to revolutionize the manufacturing industry by optimizing part transfer processes, reducing manual handling, and supporting just-in-time manufacturing practices. This innovative approach not only improves efficiency but also inspires a new way of thinking in the manufacturing world. Embrace the FPT Project and be a part of the future of manufacturing.
 
----
 
-By presenting the FPT Project in this manner, we highlight its importance, purpose, and benefits in an engaging and user-friendly way, making the concept clear and attractive to users.
